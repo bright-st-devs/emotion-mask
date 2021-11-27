@@ -37,17 +37,17 @@ const byte heart[ROWS][BYTES_PER_ROW] = {
     {0xFF, 0xFF},
     {0xFF, 0xFF},
     {0xFF, 0xFF},
-    {0x87, 0xE1},
-    {0x03, 0xC0},
-    {0x01, 0x80},
-    {0x01, 0x80},
-    {0x01, 0x80},
-    {0x03, 0xC0},
-    {0x07, 0xE0},
-    {0x0F, 0xF0},
-    {0x1F, 0xF8},
-    {0x3F, 0xFC},
-    {0x7F, 0xFE},
+    {0xE1, 0x87},
+    {0xC0, 0x03},
+    {0x80, 0x01},
+    {0x80, 0x01},
+    {0x80, 0x01},
+    {0xC0, 0x03},
+    {0xE0, 0x07},
+    {0xF0, 0x0F},
+    {0xF8, 0x1F},
+    {0xFC, 0x3F},
+    {0xFE, 0x7F},
     {0xFF, 0xFF},
     {0xFF, 0xFF}};
 
@@ -127,15 +127,10 @@ void scanLine(int row)
 
 void writeRow(const byte *leds)
 {
-    // Prepare to send
-    // TODO: Can we moce the CLK LOW to inside writeLed
-    digitalWrite(LEDARRAY_CLK, LOW);
-    delayMicroseconds(1);
-
     digitalWrite(LEDARRAY_LAT, LOW);
     delayMicroseconds(1);
 
-    for (int halfRow = 0; halfRow < BYTES_PER_ROW; ++halfRow)
+    for (int halfRow = BYTES_PER_ROW - 1; halfRow >= 0; --halfRow)
     {
         for (int led = 0; led < 8; ++led)
         {
@@ -146,6 +141,9 @@ void writeRow(const byte *leds)
 
 void writeLed(const byte halfRow, int led)
 {
+    digitalWrite(LEDARRAY_CLK, LOW);
+    delayMicroseconds(1);
+
     if (halfRow & HIGH << led)
     {
         digitalWrite(LEDARRAY_DI, HIGH);
@@ -158,7 +156,5 @@ void writeLed(const byte halfRow, int led)
     // Prepare Matrix for next LED
     delayMicroseconds(1);
     digitalWrite(LEDARRAY_CLK, HIGH);
-    delayMicroseconds(1);
-    digitalWrite(LEDARRAY_CLK, LOW);
     delayMicroseconds(1);
 }
