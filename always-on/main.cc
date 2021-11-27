@@ -15,42 +15,43 @@
 #define LED_PINS 4
 
 typedef unsigned char byte;
+typedef unsigned short unit16_t;
 
-const byte initialState[ROWS][BYTES_PER_ROW] = {
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00},
-    {0x00, 0x00}};
+const unit16_t initialState[ROWS] = {
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000};
 
-const byte heart[ROWS][BYTES_PER_ROW] = {
-    {0b11111111, 0b11111111},
-    {0b11111111, 0b11111111},
-    {0b11111111, 0b11111111},
-    {0b11100001, 0b10000111},
-    {0b11000000, 0b00000011},
-    {0b10000000, 0b00000001},
-    {0b10000000, 0b00000001},
-    {0b10000000, 0b00000001},
-    {0b11000000, 0b00000011},
-    {0b11100000, 0b00000111},
-    {0b11110000, 0b00001111},
-    {0b11111000, 0b00011111},
-    {0b11111100, 0b00111111},
-    {0b11111110, 0b01111111},
-    {0b11111111, 0b11111111},
-    {0b11111111, 0b11111111}};
+const unit16_t heart[ROWS] = {
+    0b1111111111111111,
+    0b1111111111111111,
+    0b1111111111111111,
+    0b1110000110000111,
+    0b1100000000000011,
+    0b1000000000000001,
+    0b1000000000000001,
+    0b1000000000000001,
+    0b1100000000000011,
+    0b1110000000000111,
+    0b1111000000001111,
+    0b1111100000011111,
+    0b1111110000111111,
+    0b1111111001111111,
+    0b1111111111111111,
+    0b1111111111111111};
 
 const byte scanLines[ROWS][LED_PINS] = {
     {LOW, LOW, LOW, LOW},
@@ -94,7 +95,7 @@ void setupPins()
 }
 
 // Each bit in leds represents 1 LED. 1 = on, 0 = off
-void writeAllRows(const byte leds[ROWS][BYTES_PER_ROW])
+void writeAllRows(const unit16_t leds[ROWS])
 {
     for (int row = 0; row < ROWS; ++row)
     {
@@ -126,16 +127,23 @@ void scanLine(int row)
     digitalWrite(LEDARRAY_A, scanLine[3]);
 }
 
-void writeRow(const byte *leds)
+void writeRow(const unit16_t leds)
 {
     digitalWrite(LEDARRAY_LAT, LOW);
     delayMicroseconds(1);
 
-    for (int halfRow = BYTES_PER_ROW - 1; halfRow >= 0; --halfRow)
+    // Here we take the first byte and asign it to the second element in the array
+    // then we take the second byte and asign it to the first element in the array.
+    // We do this because the LED matrix takes the second byte first.
+    byte halfRows[BYTES_PER_ROW];
+    halfRows[1] = leds >> 8;
+    halfRows[0] = leds;
+
+    for (int halfRow = 0; halfRow < BYTES_PER_ROW; ++halfRow)
     {
         for (int led = 0; led < 8; ++led)
         {
-            writeLed(leds[halfRow], led);
+            writeLed(halfRows[halfRow], led);
         }
     }
 }
