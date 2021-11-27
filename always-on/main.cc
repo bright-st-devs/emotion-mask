@@ -10,6 +10,7 @@
 #define LEDARRAY_LAT 9
 
 #define ROWS 16
+#define COLUMNS 16
 #define BYTES_PER_ROW 2
 #define LED_PINS 4
 
@@ -34,22 +35,22 @@ const byte initialState[ROWS][BYTES_PER_ROW] = {
     {0x00, 0x00}};
 
 const byte heart[ROWS][BYTES_PER_ROW] = {
-    {0xFF, 0xFF},
-    {0xFF, 0xFF},
-    {0xFF, 0xFF},
-    {0xE1, 0x87},
-    {0xC0, 0x03},
-    {0x80, 0x01},
-    {0x80, 0x01},
-    {0x80, 0x01},
-    {0xC0, 0x03},
-    {0xE0, 0x07},
-    {0xF0, 0x0F},
-    {0xF8, 0x1F},
-    {0xFC, 0x3F},
-    {0xFE, 0x7F},
-    {0xFF, 0xFF},
-    {0xFF, 0xFF}};
+    {0b11111111, 0b11111111},
+    {0b11111111, 0b11111111},
+    {0b11111111, 0b11111111},
+    {0b11100001, 0b10000111},
+    {0b11000000, 0b00000011},
+    {0b10000000, 0b00000001},
+    {0b10000000, 0b00000001},
+    {0b10000000, 0b00000001},
+    {0b11000000, 0b00000011},
+    {0b11100000, 0b00000111},
+    {0b11110000, 0b00001111},
+    {0b11111000, 0b00011111},
+    {0b11111100, 0b00111111},
+    {0b11111110, 0b01111111},
+    {0b11111111, 0b11111111},
+    {0b11111111, 0b11111111}};
 
 const byte scanLines[ROWS][LED_PINS] = {
     {LOW, LOW, LOW, LOW},
