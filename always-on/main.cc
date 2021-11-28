@@ -71,12 +71,14 @@ const byte scanLines[ROWS][LED_PINS] = {
     {HIGH, HIGH, HIGH, LOW},
     {HIGH, HIGH, HIGH, HIGH}};
 
+// Arduino function that gets called at initialization
 void setup()
 {
     setupPins();
     writeAllRows(initialState);
 }
 
+// Arduino function that gets called repeatedly
 void loop()
 {
     writeAllRows(heart);
@@ -103,18 +105,22 @@ void writeAllRows(const unit16_t leds[ROWS])
 
         writeRow(leds[row]);
 
-        // TODO make this a function with a name explaining what it does
-        digitalWrite(LEDARRAY_LAT, HIGH);
-        delayMicroseconds(1);
-
-        digitalWrite(LEDARRAY_LAT, LOW);
-        delayMicroseconds(1);
-
-        scanLine(row);
-
-        digitalWrite(LEDARRAY_G, LOW);
-        delayMicroseconds(100);
+        finalizeRow(row);
     }
+}
+
+void finalizeRow(int row)
+{
+    digitalWrite(LEDARRAY_LAT, HIGH);
+    delayMicroseconds(1);
+
+    digitalWrite(LEDARRAY_LAT, LOW);
+    delayMicroseconds(1);
+
+    scanLine(row);
+
+    digitalWrite(LEDARRAY_G, LOW);
+    delayMicroseconds(100);
 }
 
 void scanLine(int row)
