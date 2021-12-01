@@ -7,5 +7,5 @@ This code was inspired by sample code found [here](https://www.creatroninc.com/d
 ## Wiring Diagram
 
 To use this code wire your LED matrix and Arduino as follows.
-![Wiring Diagram](./cicuit.svg)
+
 <img src="./circuit.svg">
