@@ -8,4 +8,4 @@ This code was inspired by sample code found [here](https://www.creatroninc.com/d
 
 To use this code wire your LED matrix and Arduino as follows.
 
-<img src="./circuit(1).svg">
+<img src="./circuit.svg">
