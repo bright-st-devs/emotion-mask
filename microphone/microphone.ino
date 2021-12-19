@@ -126,6 +126,7 @@ void loop()
     int mn = 1024;
     int mx = 0;
 
+// This refreshes every 100 samples and it turns off if it is not constantly refreshed
     for (int i = 0; i < 5000; ++i)
     {
         if (i % 100 == 0)
@@ -151,10 +152,15 @@ void loop()
     }
     writeAllRows(currentShape);
 
+    printDebug(mn, mx, delta);
+}
+
+void printDebug(int minValue, int maxValue, int delta)
+{
     Serial.print("Min=");
-    Serial.print(mn);
+    Serial.print(minValue);
     Serial.print(" Max=");
-    Serial.print(mx);
+    Serial.print(maxValue);
     Serial.print(" Delta=");
     Serial.println(delta);
 }
