@@ -123,8 +123,8 @@ const unit16_t *currentShape = empty;
 void loop()
 {
 
-    int mn = 1024;
-    int mx = 0;
+    int minValue = 1024;
+    int maxValue = 0;
 
 // This refreshes every 100 samples and it turns off if it is not constantly refreshed
     for (int i = 0; i < 5000; ++i)
@@ -136,11 +136,11 @@ void loop()
 
         int val = analogRead(MICROPHONE);
 
-        mn = min(mn, val);
-        mx = max(mx, val);
+        minValue = min(minValue, val);
+        maxValue = max(maxValue, val);
     }
 
-    int delta = mx - mn;
+    int delta = maxValue - minValue;
 
     if (delta > 10 && delta <= 20)
     {
@@ -152,7 +152,7 @@ void loop()
     }
     writeAllRows(currentShape);
 
-    printDebug(mn, mx, delta);
+    printDebug(minValue, maxValue, delta);
 }
 
 void printDebug(int minValue, int maxValue, int delta)
